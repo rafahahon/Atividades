@@ -51,7 +51,7 @@ Números inteiros para binário, dividir por 16 e anotar os restos contando o ú
 1 4 3 7 = 5  9  D
 
 exemplo binario e hexadecimal:
-
+    
 1 0010 1110 1101
 
 1     2      E     D
