@@ -1,0 +1,62 @@
+ATIVIDADE 1
+/*
+Autor: Rafaella
+Nome programa: Pisque
+Descricao: Meu primeiro codigo em arduino
+Data: 19/02/2025
+*/
+#define pinLED 13
+#define tempoPisca 300
+
+void setup () // inica o arduino 
+{
+  pinMode(pinLED,OUTPUT); // define o pino 13 como saida
+    
+}
+
+void loop()// torna o pos setup um loop 
+{
+  digitalWrite(pinLED, HIGH); // aciona o pino 13 
+  delay(tempoPisca);// aguarda 1000ms (1s) 
+  digitalWrite(pinLED, LOW);// desaciona o pino 13 
+  delay(tempoPisca);// aguarda 1000ms (1s) 
+}
+
+ATIVIDADE 2
+/*
+Autor: Rafaella
+Nome programa: Semáforo 
+Descricao: Meu primeiro projetin em arduino
+Data: 19/02/2025
+*/
+
+#define pinRED 13
+#define pinYELLOW 12
+#define pinGREEN 8
+
+#define tempoRED 5000
+#define tempoYELLOW 2000
+#define tempoGREEN 3000
+
+void setup ()  
+{
+  pinMode(pinRED,OUTPUT); 
+  pinMode(pinYELLOW, OUTPUT);
+  pinMode(pinGREEN, OUTPUT);
+    
+}
+
+void loop()
+{
+  digitalWrite(pinRED, HIGH); 
+  delay(tempoRED);
+  digitalWrite(pinRED, LOW);
+  
+  digitalWrite(pinGREEN, HIGH); 
+  delay(tempoGREEN);
+  digitalWrite(pinGREEN, LOW);
+  
+  digitalWrite(pinYELLOW, HIGH); 
+  delay(tempoYELLOW);
+  digitalWrite(pinYELLOW, LOW); 
+}
