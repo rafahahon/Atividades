@@ -1,0 +1,43 @@
+/*
+Autor: Rafaella
+Nome programa: Memorias
+Descricao: Memorias e tipos de variaveis
+Data: 21/02/2025
+*/
+int rebeca = 400;
+
+
+void setup ()
+{
+  Serial.begin(9600);
+  Serial.println("Tamanhos dos tipos de variaveis em bytes" );
+  Serial.print("bool: " ); Serial.println(sizeof(bool)); // Verdadeiro ou falso 1 ou 0 tudo diferente de 0 e 1 (1 byte = 8 bits)
+  Serial.print("char: " ); Serial.println(sizeof(char)); // Letras (1 byte = 8 bits) 0 a 255 caracteres
+  Serial.print("Byte: " ); Serial.println(sizeof(byte)); // 0 a 255
+  Serial.print("int: " ); Serial.println(sizeof(int)); // Numero inteiro (4 byte = 32 bits) -32768 a 32767
+  Serial.print("unsigned int: " ); Serial.println(sizeof(unsigned int)); // Numero inteiro sem (4 byte = 32 bits) 0 a 65535
+  Serial.print("long: " ); Serial.println(sizeof(long)); // -2.147.483.648 a 2.147.438.647
+  Serial.print("unsigned long: " ); Serial.println(sizeof(unsigned long)); // 0 a 4294967295
+  Serial.print("float: " ); Serial.println(sizeof(float)); 
+  // valor maximo positivo: 3,4028235 x 10^38 
+  // valor minimo positivo: 1.175494 x 10^-38
+  // valor minimo negativo: -1.175494 x 10^-38
+  // valor maximo negativo: -3,4028235 x 10^38
+  // aceita virgula
+  Serial.print("double: " ); Serial.println(sizeof(double)); // Numeros com casa decimais -2.147.483.648 a 2.147.438.647
+  Serial.print("int8_t: " ); Serial.println(sizeof(int8_t));
+Serial.print("uint8_t: " ); Serial.println(sizeof(uint8_t));
+Serial.print("int16_t: " ); Serial.println(sizeof(int16_t));
+Serial.print("uint16_t: " ); Serial.println(sizeof(uint16_t));
+Serial.print("int32_t: " ); Serial.println(sizeof(int32_t));
+Serial.print("uint32_t: " ); Serial.println(sizeof(uint32_t));
+Serial.print("int64_t: " ); Serial.println(sizeof(int64_t));
+Serial.print("uint64_t: " ); Serial.println(sizeof(uint64_t));
+}
+
+
+void loop ()
+{
+  
+  
+}
