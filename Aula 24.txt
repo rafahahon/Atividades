@@ -1,0 +1,91 @@
+/*
+Autor: Rafaella
+Nome programa: Cruzamento 
+Descricao: Continuacao do semaforo em arduino
+Data: 20/02/2025
+*/
+
+#define pinRED 13
+#define pinYELLOW 12
+#define pinGREEN 8
+#define pinRED2 7
+#define pinYELLOW2 4
+#define pinGREEN2 2
+#define pinGREEN3 5
+#define pinRED3 6
+#define pinGREEN4 9
+#define pinRED4 10
+
+#define tempo2s 2000
+#define tempo3s 3000
+#define tempo1s 1000
+
+void setup ()  
+{
+  pinMode(pinRED,OUTPUT); 
+  pinMode(pinYELLOW, OUTPUT);
+  pinMode(pinGREEN, OUTPUT);
+  
+  pinMode(pinRED2, OUTPUT); 
+  pinMode(pinYELLOW2, OUTPUT);
+  pinMode(pinGREEN2, OUTPUT);
+  
+  pinMode(pinRED3, OUTPUT); 
+  pinMode(pinGREEN3, OUTPUT);
+  
+  pinMode(pinRED4, OUTPUT); 
+  pinMode(pinGREEN4, OUTPUT);
+}
+
+void loop()
+{
+  delay(tempo2s);
+  
+  digitalWrite(pinRED3, LOW);
+  
+  digitalWrite(pinYELLOW, LOW);
+  digitalWrite(pinRED, HIGH); 
+  
+  digitalWrite(pinRED2, LOW);
+  digitalWrite(pinGREEN2, HIGH); 
+  digitalWrite(pinGREEN3, HIGH);
+  digitalWrite(pinRED4, HIGH);
+  
+  delay(tempo2s);
+  
+  digitalWrite(pinRED4, LOW);
+  
+  delay(tempo1s);
+  digitalWrite(pinRED4, HIGH);
+  
+  digitalWrite(pinGREEN2, LOW);
+  digitalWrite(pinYELLOW2, HIGH);
+  
+  delay(tempo2s);
+  
+  digitalWrite(pinRED, LOW);
+  digitalWrite(pinGREEN3, LOW); 
+  digitalWrite(pinRED3, HIGH);
+  digitalWrite(pinGREEN, HIGH);
+  digitalWrite(pinYELLOW2, LOW);
+  digitalWrite(pinRED4, LOW);
+  digitalWrite(pinGREEN4, HIGH);
+  digitalWrite(pinRED2, HIGH);
+  
+  delay(tempo2s);
+  
+  digitalWrite(pinRED3, LOW);
+  
+  delay(tempo1s);
+  digitalWrite(pinRED3, HIGH);
+  
+  digitalWrite(pinGREEN, LOW);
+  digitalWrite(pinRED3, HIGH);
+  digitalWrite(pinYELLOW, HIGH); 
+  digitalWrite(pinRED2, HIGH);
+  digitalWrite(pinRED3, HIGH);
+  digitalWrite(pinGREEN4, LOW);
+  
+  delay(tempo2s);
+  
+}
