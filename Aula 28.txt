@@ -1,0 +1,60 @@
+/*
+Autor: Rafaella
+Nome programa: Controle de temperatura e alerta de bateria
+Descricao: Isso ai
+Data: 26/02/2025
+*/
+
+#define alarme 13
+
+int temperatura = 21;
+int bateria = 30;
+int valor = 1000;
+int resultado = 0;
+int resultado2 = 0;
+int papar = 6;
+
+void setup()
+{
+  pinMode(alarme, OUTPUT);
+  
+  /*
+  if(temperatura > 30){
+  digitalWrite(alarme, HIGH); 
+  }
+  */
+  
+  /*
+  if(bateria > 20 && bateria < 80){
+    digitalWrite(alarme, HIGH);
+  }
+  */
+  
+  /*
+  Serial.begin(9600);
+  
+  resultado = map(valor, 0, 1023, 0, 100);
+  resultado2 = constrain(resultado, 20, 80);
+  if(resultado > 80){
+    Serial.print("O valor ");
+    Serial.print(resultado);
+    Serial.print(" excedeu os limites, valor reajustado para ");
+    Serial.println(resultado2);
+    digitalWrite(alarme, HIGH);
+  }
+  */
+  
+  resultado = papar/2;
+  resultado2 = papar%2;
+  if(resultado2 == 0){
+    digitalWrite(alarme, HIGH);
+  }
+  
+  
+  
+}
+
+void loop()
+{
+  
+}
