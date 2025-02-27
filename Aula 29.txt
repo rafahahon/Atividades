@@ -1,0 +1,78 @@
+/*
+Autor: Rafaella
+Nome programa: Exercicios parte 2
+Descricao: Meu primeiro codigo em arduino
+Data: 27/02/2025
+*/
+
+// variavel 1
+int numero1 = 2;
+
+// variavel 2
+auto nome = "Renato";
+auto cargo = "Gerente";
+float salario = 900.00;
+
+// variavel 3
+float salario2 = 430.00;
+
+// variavel 4
+float numeroA = 43;
+float numeroB = 32;
+
+// variavel 5
+float nota1 = 5;
+float nota2 = 6;
+float nota3 = 5;
+float nota4 = 6;
+
+
+
+void setup()
+{
+  Serial.begin(9600);
+  
+  // exercicio 1
+  if(numero1 < 0){
+   Serial.println("Negativo"); 
+  } else { Serial.println("Positivo"); }
+  
+  // exercicio 2
+  if(salario < 1000){
+   salario = salario+(salario*10/100);
+    Serial.print(nome);
+      Serial.print(" seu novo salario no cargo ");
+    	Serial.print(cargo);
+      		Serial.print(" e: ");
+    			Serial.println(salario);
+  }
+  
+  // exercicio 3
+  if(salario2 < 500){
+    salario2 = salario2+(salario2*0.3);
+    Serial.print("Seu novo salario e: ");
+    Serial.println(salario2);
+  } else { Serial.println("Voce nao tem direito a um aumento"); } 
+  
+  // exercicio 4
+  if(numeroA > numeroB) {
+    Serial.println(numeroA);
+  } else { Serial.println(numeroB); } 
+  
+  // exercicio 5
+  float media = (nota1 + nota2 + nota3 + nota4)/4;
+  	Serial.print("Sua media foi ");
+  	Serial.println(media);
+  if (media > 7) {
+    Serial.println("Aprovado");
+  } else if (media > 5) {
+    Serial.println("Recuperacao");
+  } else { Serial.println("Reprovado"); }
+}
+
+void loop()
+{
+  
+}
+
+// ./2 ass. odirlei
