@@ -1,0 +1,53 @@
+/*
+Autor: Rafaella
+Nome programa: Switch
+Descricao: Exercicios com switch case
+Data: 28/02/25
+*/
+
+#define red 11
+#define green 12
+#define yellow 10
+#define white 7
+#define blue 3
+
+int sera = 5;
+
+void setup()
+{
+  Serial.begin(9600);
+  
+  pinMode(red, OUTPUT);
+  pinMode(green, OUTPUT);
+  pinMode(yellow, OUTPUT);
+  pinMode(white, OUTPUT);
+  pinMode(blue, OUTPUT);
+  
+  switch(sera){
+   case 1:
+    	digitalWrite(red, HIGH);
+    break;
+    case 2:
+    	digitalWrite(green, HIGH);
+    break;
+    case 3:
+    	digitalWrite(yellow, HIGH);
+    break;
+    case 4:
+    	digitalWrite(white, HIGH);
+    break;
+    case 5:
+    	digitalWrite(blue, HIGH);
+    break;
+    default:
+    	Serial.println("NAO");
+    break;
+  }
+  
+  
+}
+
+void loop()
+{
+  
+}
