@@ -1,0 +1,52 @@
+/*
+Autor: Rafaella
+Nome programa: Semaforo millis
+Descricao: Semaforo usando millis ao inves do delay
+Data: 6/03 - 7/03
+*/
+
+#define pinLedVermelho 13
+#define pinLedAmarelo 9
+#define pinLedVerde 6
+
+unsigned long tempoInicial = 0;
+unsigned long tempoms;
+int fase = 0;
+
+void setup()
+{
+  pinMode(pinLedVermelho, OUTPUT);
+  pinMode(pinLedAmarelo, OUTPUT);
+  pinMode(pinLedVerde, OUTPUT);
+  
+}
+
+void loop()
+{
+  tempoms = millis();
+  
+  if(fase == 0 && tempoms - tempoInicial >= 2000){ 
+  digitalWrite(pinLedVermelho, HIGH);
+  digitalWrite(pinLedVerde, LOW);
+  digitalWrite(pinLedAmarelo, LOW);
+    tempoInicial = tempoms;
+    fase += 1;
+  }
+  
+  if(fase == 1 && tempoms - tempoInicial >= 5000){ 
+  digitalWrite(pinLedVermelho, LOW);
+  digitalWrite(pinLedVerde, HIGH);
+  digitalWrite(pinLedAmarelo, LOW);
+    tempoInicial = tempoms;
+    fase += 1;
+  }
+  
+  if(fase == 2 && tempoms - tempoInicial >= 3000){ 
+  digitalWrite(pinLedVermelho, LOW);
+  digitalWrite(pinLedVerde, LOW);
+  digitalWrite(pinLedAmarelo, HIGH);
+    tempoInicial = tempoms;
+    fase = 0;
+  }
+
+}
