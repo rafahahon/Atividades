@@ -1,0 +1,23 @@
+
+#define pinBotao 10
+#define led LED_BUILTIN
+
+int pressionaBotao = 0;
+
+void setup()
+{
+  pinMode(pinBotao, INPUT);
+  pinMode(led, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop()
+{
+ int statusBotaoAntes = digitalRead(pinBotao);
+ bool statusBotaoDepois = digitalRead(pinBotao);
+  
+  if(!statusBotaoAntes && statusBotaoDepois) {
+    pressionaBotao ++;
+    Serial.println(pressionaBotao);
+  } 
+}
