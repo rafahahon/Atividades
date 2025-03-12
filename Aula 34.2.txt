@@ -1,0 +1,57 @@
+/*
+Autor: Rafaella
+Nome programa: Led com botao
+Descricao: Led acende com botao e continua ligado ate q o botao
+seja apertado dnv so que agora com 2 leds e 2 botoes
+Data: 12/03
+*/
+
+#include <LiquidCrystal_I2C.h> //inclui a biblioteca do lcd
+
+LiquidCrystal_I2C lcd(0x27, 16, 2); 
+
+#define pinBotaoRed 8 
+#define pinBotaoBlue 2
+#define pinLedRed 13
+#define pinLedBlue 12
+
+void setup() {
+  pinMode(pinLedRed, OUTPUT);
+  pinMode(pinLedBlue, OUTPUT);
+  pinMode(pinBotaoRed, INPUT);
+  lcd.init(); 
+  lcd.backlight();  
+  lcd.setCursor(0, 0); //lcd.home
+  lcd.print("Led Red OFF");
+  lcd.setCursor(0, 1);
+  lcd.print("Led Blue OFF");
+}
+
+void loop() {
+  
+  bool estadoBotaoRedDepois = digitalRead(pinBotaoRed); 
+  static bool estadoBotaoRedAntes = 0;
+  static bool estadoLedRed = 0;
+  
+  if (estadoBotaoRedAntes && !estadoBotaoRedDepois){
+   estadoLedRed = !estadoLedRed;
+   digitalWrite(pinLedRed, estadoLedRed);
+    lcd.setCursor(8, 0);
+    if(estadoLedRed) lcd.print("ON ");
+     else lcd.print("OFF");
+  } 
+  estadoBotaoRedAntes = estadoBotaoRedDepois; 
+  
+  bool estadoBotaoBlueDepois = digitalRead(pinBotaoBlue); 
+  static bool estadoBotaoBlueAntes = 0;
+  static bool estadoLedBlue = 0;
+  
+  if (estadoBotaoBlueAntes && !estadoBotaoBlueDepois){
+   estadoLedBlue = !estadoLedBlue;
+   digitalWrite(pinLedBlue, estadoLedBlue);
+    lcd.setCursor(9, 1);
+    if(estadoLedBlue) lcd.print("ON ");
+     else lcd.print("OFF");
+  }
+  estadoBotaoBlueAntes = estadoBotaoBlueDepois; 
+}
