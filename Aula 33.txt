@@ -1,3 +1,9 @@
+/*
+Autor: Rafaella
+Nome programa: Aprendendo a usar o botao
+Descricao: Como contar quantas vezes o botao foi pressionado 
+Data: 10/03
+*/
 
 #define pinBotao 10
 #define led LED_BUILTIN

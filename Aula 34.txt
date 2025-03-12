@@ -1,0 +1,42 @@
+/*
+Autor: Rafaella
+Nome programa: Led com botao
+Descricao: Led acende com botao e continua ligado ate q o botao
+seja apertado dnv
+Data: 11-12/03
+*/
+
+#include <LiquidCrystal_I2C.h> //inclui a biblioteca do lcd
+
+LiquidCrystal_I2C lcd(0x27, 16, 2); 
+
+#define pinBotaoA 8 
+#define pinLedA 13
+#define pinLedB 12
+
+void setup() {
+  pinMode(pinLedA, OUTPUT);
+  pinMode(pinLedB, OUTPUT);
+  pinMode(pinBotaoA, INPUT);
+  lcd.init(); 
+  lcd.backlight();  
+  lcd.setCursor(0, 0); //lcd.home
+  lcd.print("Led A OFF");
+}
+
+void loop() {
+  
+  bool estadoBotaoADepois = digitalRead(pinBotaoA); 
+  static bool estadoBotaoAAntes = 0;
+  static bool estadoLedA = 0;
+  
+  if (estadoBotaoAAntes && !estadoBotaoADepois){
+   estadoLedA = !estadoLedA;
+   digitalWrite(pinLedA, estadoLedA);
+    lcd.setCursor(6, 0);
+    if(estadoLedA) lcd.print("ON ");
+     else lcd.print("OFF");
+  } 
+
+  estadoBotaoAAntes = estadoBotaoADepois; 
+}
