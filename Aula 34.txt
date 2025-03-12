@@ -26,8 +26,8 @@ void setup() {
 
 void loop() {
   
-  bool estadoBotaoADepois = digitalRead(pinBotaoA); 
-  static bool estadoBotaoAAntes = 0;
+  bool estadoBotaoADepois = digitalRead(pinBotaoA); //estado do botao atual
+  static bool estadoBotaoAAntes = 0; //estado do botao anterior para comparacao
   static bool estadoLedA = 0;
   
   if (estadoBotaoAAntes && !estadoBotaoADepois){
