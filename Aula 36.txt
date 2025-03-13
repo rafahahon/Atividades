@@ -38,6 +38,9 @@ void loop()
   }	else if(leitura >= 666.9 && leitura <= 815.1){
     lcd.print("Botao 5             ");
     digitalWrite(pinledBlue, HIGH);
-  }	digitalWrite(pinledWhite, LOW);
+  }	else {
+    lcd.print("Botoes off");
+  }
+  	digitalWrite(pinledWhite, LOW);
    	digitalWrite(pinledBlue, LOW);
 }
