@@ -1,0 +1,158 @@
+#include <LiquidCrystal_I2C.h>
+
+/*
+Autor: Rafaella
+Nome programa: Circuito com botao up e botao down
+Descricao: botao com funcao up faz a seta ir pra cima e o
+down para baixo
+Data: 13-17/03/25
+*/
+
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+#define pinledWhite 11
+#define pinledBlue 10
+#define valorBotao1 0
+#define valorBotao2 145
+#define valorBotao3 329
+#define valorBotao4 505
+#define valorBotao5 741
+
+void setup()
+{
+  pinMode(pinledWhite, OUTPUT);
+  pinMode(pinledBlue, OUTPUT);
+  
+  Serial.begin(9600);
+  lcd.init();
+  lcd.backlight();
+  lcd.setCursor(1, 0);
+  lcd.print("Led Branco OFF");
+  lcd.setCursor(1,1);
+  lcd.print("Led Azul OFF");
+}
+
+void loop()
+{
+  static bool posicao = 0; //posicao da seta
+  static bool estadoLedWhite = 0;
+  static bool estadoLedBlue = 0;
+  static byte intensidadeLedWhite;
+  static byte intensidadeLedBlue;
+  static bool executar = 0;
+  
+  //INICIO TRATAMENTO DOS BOTOES
+  
+  float leitura = analogRead(A0);
+  static int valorAnteriorLeitura = 1023;
+  
+  //quando o botao 1 for pressionado
+  if(valorAnteriorLeitura && leitura == valorBotao1){
+    posicao = 0;
+    executar = 1;
+    
+    //quando o botao 2 for pressionado
+  } else if(valorAnteriorLeitura && 
+   	leitura >= valorBotao2 * 0.9 && leitura <= valorBotao2 *1.1){
+    posicao = 1;
+    executar = 1;
+    
+    //quando o botao 3 for pressionado
+  } else if(valorAnteriorLeitura && 
+   	leitura >= valorBotao2 * 0.9 && leitura <= valorBotao3 *1.1){
+    if(!posicao && estadoLedWhite){
+      	if(intensidadeLedWhite > 0)
+          intensidadeLedWhite -= 10;
+      	if(intensidadeLedWhite == 0)
+          estadoLedWhite = 0;}
+    else if(posicao == 1 && estadoLedBlue){
+      if(intensidadeLedBlue > 0)
+        intensidadeLedBlue -= 1;
+      if(intensidadeLedBlue == 0)
+        estadoLedBlue = 0;
+    }
+    executar = 1;
+  
+    //quando o botao 4 for pressionado
+  } else if(valorAnteriorLeitura && 
+    leitura >= valorBotao2 * 0.9 && leitura <= valorBotao4 *1.1){
+    	if(!posicao && estadoLedWhite){
+      		if(intensidadeLedWhite < 100)
+              intensidadeLedWhite += 10;
+        }
+    	else if(posicao == 1 && estadoLedBlue){
+      		if(intensidadeLedBlue < 100)
+              intensidadeLedBlue += 10;
+        }
+    executar = 1;
+    
+    //quando o botao 5 for pressionado
+  } else if(valorAnteriorLeitura && 
+   	leitura >= valorBotao5 * 0.9 && leitura <= valorBotao5 *1.1){
+      if(posicao == 0){
+        estadoLedWhite = !estadoLedWhite;
+        if(estadoLedWhite && intensidadeLedWhite == 0)
+          intensidadeLedWhite = 10; }
+      else{
+        estadoLedBlue = !estadoLedBlue;
+        if(estadoLedBlue && intensidadeLedBlue == 0)
+          intensidadeLedBlue = 10; 
+        }
+  	executar = 1;
+ }
+
+	valorAnteriorLeitura = leitura;
+  //FIM TRATAMENTO DOS BOTOES
+	
+	if(executar){
+  		executar = 0;
+      
+  //INICIO TRATAMENTO DO DISPLAY
+  //mostrar seta
+     
+      if(!posicao){
+        lcd.setCursor(0, 0);
+        lcd.print(">");
+        lcd.setCursor(0, 1);
+        lcd.print(" ");
+      } else {
+        lcd.setCursor(0, 1);
+        lcd.print(">");
+        lcd.setCursor(0, 0);
+        lcd.print(" ");
+      }
+
+      //mostrar estado do led
+      if(!estadoLedWhite){
+        lcd.setCursor(1, 0);
+        lcd.print("Led Branco OFF");
+      } else {
+        lcd.setCursor(12, 0);
+        lcd.print(intensidadeLedWhite);
+        lcd.print(" % ");
+      }
+      if(!estadoLedBlue){
+        lcd.setCursor(1, 1);
+        lcd.print("Led Azul OFF");
+      } else {
+        lcd.setCursor(10, 1);
+        lcd.print(intensidadeLedBlue);
+        lcd.print(" % ");
+      }
+    
+  //FIM TRATAMENTO DO DISPLAY
+    
+  //INICIO TRATAMENTO DO LED
+  
+  if(intensidadeLedWhite == 0) 
+    digitalWrite(pinledWhite, LOW);
+  else
+    analogWrite(pinledWhite, intensidadeLedWhite);
+      
+  if(intensidadeLedBlue == 0) 
+    digitalWrite(pinledBlue, LOW);
+   else
+    analogWrite(pinledBlue, intensidadeLedBlue);
+      
+  //FIM TRATAMENTO DO LED
+    }
+}
