@@ -13,7 +13,14 @@ Data: 20/03/25
 #define led2 10
 #define led3 8
 
+#define led4 2
+#define led5 3
+#define led6 4
+
+#define botao 6
+
 int pinLeds[3] = {led1,led2,led3};
+int pinLeds2[3] = {led4,led5,led6};
 
 static int x = 9;
 int y = 0;
@@ -27,6 +34,11 @@ void setup()
   for(int i = 0; i < 3; i++){
    pinMode(pinLeds[i], OUTPUT);
   }
+  for(int i = 0; i < 3; i++){
+   pinMode(pinLeds2[i], OUTPUT);
+  }
+  
+  pinMode(botao, INPUT_PULLUP);
   
   //1
   
@@ -42,31 +54,52 @@ void setup()
   
   //2
   
-  int numero = 18;
+  int numero = 38;
+  bool contemNumero = 0;
   
-  for(int i = 0; i < 1; i++){
-   if(listaNumeros[i] == numero){
-     Serial.println("Numero encontrado"); 
-    } else Serial.println("Numero nao encontrado");
+  for(int i = 0; i < 5; i++){
+    
+     if (numero == listaNumeros[i]){
+       contemNumero = 1;
+       Serial.print("Numero encontrado");
+
+    }
+    else if (i == 4 and contemNumero == 0){
+       Serial.print("Numero nao encontrado");
+    }
   }
     
   //3
   
-  for(int i = 0; i < 4; i++){
+  for(int i = 0; i < 3; i++){
     digitalWrite(pinLeds[i], HIGH);
     delay(500);
   }
   
   delay(3000);
   
-  for(int i = 0; i < 4; i++){
+  for(int i = 0; i < 3; i++){
     digitalWrite(pinLeds[i], LOW);
     delay(500);
   }
- 
+  
 }
 
 void loop()
 {
+  //4
+  
+  bool estadoBotao = digitalRead(botao);
+  
+  for(int i = 0; i < 3; i++){
+   if(estadoBotao == 0){
+    digitalWrite(pinLeds2[i], HIGH);
+    delay(500); 
+  } else if(estadoBotao == 1){
+     digitalWrite(pinLeds2[i], LOW);
+     delay(500);
+  } 
+    delay(200);
+ }
   
 }
