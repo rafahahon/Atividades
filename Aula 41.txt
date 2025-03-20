@@ -1,0 +1,78 @@
+/*
+Autor: Rafaella
+Nome programa: Exercicios do Odirlei
+Descricao: Faça um programa que calcule a tabuada de um numero e mostre no monitor serial.
+ex: 5 x 1 = 5
+      5 x 2 = 10
+Faça um programa que avalie um numero e verifique se este numero esta dentro de um array, caso esse numero seja encontrado mostre no console "Numero encontrado" caso contrario "Numero não encontrado".
+Faça um programa que acenda 3 leds um por um, mantenha-os acesos, por 3 segundos e em seguida apague-os um por um.
+Data: 20/03/25
+*/
+
+#define led1 13
+#define led2 10
+#define led3 8
+
+int pinLeds[3] = {led1,led2,led3};
+
+static int x = 9;
+int y = 0;
+int resultado;
+int listaNumeros[5] = {10,20,30,40,50};
+
+void setup()
+{
+  Serial.begin(9600);
+  
+  for(int i = 0; i < 3; i++){
+   pinMode(pinLeds[i], OUTPUT);
+  }
+  
+  //1
+  
+  while(y < 11){
+    resultado = x * y;
+    Serial.print(x);
+    Serial.print(" * ");
+    Serial.print(y);
+    Serial.print(" = ");
+    Serial.println(resultado);
+    y++;
+  }
+  
+  //2
+  
+  int numero = 10;
+  
+    if(listaNumeros[0] == numero){
+     Serial.println("Numero encontrado"); 
+    } else if(listaNumeros[1] == numero){
+     Serial.println("Numero encontrado"); 
+    } else if (listaNumeros[3] == numero){
+     Serial.println("Numero encontrado"); 
+    } else if (listaNumeros[4] == numero){
+     Serial.println("Numero encontrado"); 
+    } else if (listaNumeros[5] == numero){
+     Serial.println("Numero encontrado"); 
+    } else Serial.println("Numero nao encontrado");
+    
+  //3
+  
+  for(int i = 0; i < 4; i++){
+    digitalWrite(pinLeds[i], HIGH);
+    delay(500);
+  }
+  
+  delay(3000);
+  
+  for(int i = 0; i < 4; i++){
+    digitalWrite(pinLeds[i], LOW);
+    delay(500);
+  }
+ 
+}
+
+void loop()
+{
+  
+}
