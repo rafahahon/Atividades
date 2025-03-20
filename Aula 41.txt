@@ -42,19 +42,13 @@ void setup()
   
   //2
   
-  int numero = 10;
+  int numero = 18;
   
-    if(listaNumeros[0] == numero){
-     Serial.println("Numero encontrado"); 
-    } else if(listaNumeros[1] == numero){
-     Serial.println("Numero encontrado"); 
-    } else if (listaNumeros[3] == numero){
-     Serial.println("Numero encontrado"); 
-    } else if (listaNumeros[4] == numero){
-     Serial.println("Numero encontrado"); 
-    } else if (listaNumeros[5] == numero){
+  for(int i = 0; i < 1; i++){
+   if(listaNumeros[i] == numero){
      Serial.println("Numero encontrado"); 
     } else Serial.println("Numero nao encontrado");
+  }
     
   //3
   
