@@ -1,0 +1,25 @@
+#include <Arduino.h>
+
+#define pinLed 2
+#define botao 0
+
+
+void setup() {
+  pinMode(pinLed, OUTPUT);
+  pinMode(botao, INPUT);
+  
+}
+
+void loop() {
+  bool leituraBotao = digitalRead(botao);
+
+  if(leituraBotao == 0){
+    digitalWrite(pinLed, HIGH);
+    delay(300);
+  }
+  digitalWrite(pinLed, LOW);
+  
+  
+  
+
+}
