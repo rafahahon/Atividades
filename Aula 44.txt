@@ -1,0 +1,23 @@
+#include <Arduino.h>
+#include <LiquidCrystal_I2C.h>
+
+// Instancia de objetos
+LiquidCrystal_I2C lcd(0x27, 20, 4);
+
+
+void setup() {
+  Serial.begin(115200); //baudRate
+  lcd.init();
+  lcd.backlight();
+  lcd.print("Hello dnjassdajsdjaksdjk");
+
+}
+
+void loop() {
+
+  for(int positionCounter = 0; positionCounter < 16; positionCounter++){
+        lcd.scrollDisplayLeft();
+        delay(200);
+    }
+
+}
