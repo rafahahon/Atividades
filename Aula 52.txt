@@ -1,1 +1,142 @@
-oi
+#include <Arduino.h>
+#include <LiquidCrystal_I2C.h>
+#include <Bounce2.h>
+
+LiquidCrystal_I2C lcd(0x27, 20, 4);
+
+#define botao 2
+#define entradaA 4
+#define entradaB 5
+
+Bounce botaoEncoder = Bounce();
+
+//* tabela de possibilidades
+const int8_t tabelaTransicao[4][4] = {
+// +1 horario 
+// 0 parado 
+// - 1 antihorario
+
+// 0   1  2  3 ATUAL
+  {0, 1, -1, 0}, // 0 anterior
+  {-1, 0, 0, 1}, // 1 anterior
+  {1, 0, 0, -1}, // 2 anterior
+  {0, -1, 1, 0} // 3 anterior
+  };
+
+//* 32013201 HORARIO 
+//* 10231023 ANTIHORARIO
+
+int encoderUpdate();
+
+void setup() {
+  
+  pinMode(entradaA, INPUT);
+  pinMode(entradaB, INPUT);
+  botaoEncoder.attach(botao, INPUT);
+
+  Serial.begin(115200);
+
+  lcd.init();
+  lcd.backlight();
+
+}
+
+void loop() {
+  int dirEncoder = encoderUpdate();
+
+  botaoEncoder.update();
+
+  static bool posicaoMenu = 1; //* 0 - intensidade do led | 1- menu
+  static int posicaoSeta = 0;
+  static int intensidadeLed1 =0;
+  static int intensidadeLed2 =0;
+  static int intensidadeLed3 =0;
+  static int intensidadeLed4 =0;
+
+  if(botaoEncoder.fell())
+  {
+    posicaoMenu = !posicaoMenu;
+  }
+
+  if(posicaoMenu) //Alterando a posicao da seta
+  {
+    if(dirEncoder != 0)
+    {
+    posicaoSeta += dirEncoder;
+
+    if(posicaoSeta > 3) 
+      posicaoSeta = 0;
+    else if(posicaoSeta < 0) 
+      posicaoSeta = 3;
+
+    }
+  }
+  else if(dirEncoder != 0)//Alterando a intensidade de um led especifico 
+  {
+    switch (posicaoSeta)
+    {
+    case 0:
+        intensidadeLed1 += dirEncoder * 10;
+        if(intensidadeLed1 > 100) intensidadeLed1 = 100;
+        if(intensidadeLed1 < 0) intensidadeLed1 = 0;
+
+      break;
+    
+    case 1:
+        intensidadeLed2 += dirEncoder * 10;
+        if(intensidadeLed2 > 100) intensidadeLed2 = 100;
+        if(intensidadeLed2 < 0) intensidadeLed2 = 0;
+
+      break;
+
+    case 2:
+        intensidadeLed3 += dirEncoder * 10;
+        if(intensidadeLed3 > 100) intensidadeLed3 = 100;
+        if(intensidadeLed3 < 0) intensidadeLed3 = 0;
+
+      break;
+
+    case 3:
+        intensidadeLed4 += dirEncoder * 10;
+        if(intensidadeLed4 > 100) intensidadeLed4 = 100;
+        if(intensidadeLed4 < 0) intensidadeLed4 = 0;
+
+      break;
+    }
+
+  }    
+  
+}
+
+
+int encoderUpdate(){
+  bool leituraEntradaA = digitalRead(entradaA);
+  bool leituraEntradaB = digitalRead(entradaB);
+
+  int estadoAtualEncoder = ((leituraEntradaA << 1) | leituraEntradaB);
+
+  static int estadoAnteriorEncoder = 3;
+  int estado = 0;
+  static int acumuladorMovimento = 0;
+
+  if(estadoAtualEncoder != estadoAnteriorEncoder)
+  {
+  acumuladorMovimento += tabelaTransicao[estadoAnteriorEncoder][estadoAtualEncoder];
+  
+  if(estadoAtualEncoder == 3){
+
+    if(acumuladorMovimento == 4)
+    estado = 1;
+
+    else if(acumuladorMovimento == -4)
+    estado = -1;
+
+    acumuladorMovimento = 0;
+
+    }
+  }
+  estadoAnteriorEncoder = estadoAtualEncoder;
+
+  return estado;
+
+}
