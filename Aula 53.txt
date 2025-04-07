@@ -60,4 +60,5 @@ void loop() {
 
     acumuladorMovimento = 0
   }
+    estadoAnterior = estadoAtual;
 }
