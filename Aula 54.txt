@@ -1,0 +1,103 @@
+/*
+Autor: Rafaella
+Nome programa: Estruturas
+Descricao: Trabalhando com estruturas
+Data: 08/04
+*/
+
+#include <Arduino.h>
+
+struct Pessoa
+{
+  char nome[20];
+  int idade;
+  float altura;
+  bool calvicie;
+};
+
+Pessoa aluno;
+Pessoa professor;
+
+void setup() 
+{
+ Serial.begin(9600);
+
+  strcpy(aluno.nome, "Rafaella");
+  aluno.idade = 18;
+  aluno.altura = 1.57;
+  aluno.calvicie = false;
+
+  Serial.printf("Meu nome e: %s\n\rE tenho %d anos\n\r""Tenho %.2f metros de altura\n\r", aluno.nome, aluno.idade, aluno.altura);
+  Serial.printf("E %s calvo\n\r", aluno.calvicie ? "sou" : "nao sou");
+
+  strcpy(professor.nome, "Julia");
+  professor.idade = 47;
+  professor.altura = 1.98;
+  professor.calvicie = true;
+  
+  Serial.printf("Meu nome e: %s\n\rE tenho %d anos\n\r""Tenho %.2f metros de altura\n\r", professor.nome, professor.idade, professor.altura);
+  Serial.printf("E %s calvo\n\r", professor.calvicie ? "sou" : "nao sou");
+
+}
+
+void loop() 
+{
+  
+}
+
+/*
+Autor: Rafaella
+Nome programa: Estruturas
+Descricao: Trabalhando com estruturas
+Data: 08/04
+*/
+
+#include <Arduino.h>
+
+struct rgb
+{
+  char nome[20];
+  int r;
+  int g;
+  int b;
+};
+
+rgb azul;
+rgb cabeloMayara;
+rgb blusaDaStreamer;
+rgb roxo;
+
+void setup() 
+{
+  Serial.begin(9600);
+
+  strcpy(azul.nome, "azul");
+  azul.r = 0;
+  azul.g = 77;
+  azul.b = 255;
+  Serial.printf("Para fazer a cor %s vc precisa de %d vermelho, %d de verde e %d de azul.\n\r", azul.nome, azul.r, azul.g, azul.b);
+
+  strcpy(cabeloMayara.nome, "cabelo Mayara");
+  cabeloMayara.r = 134;
+  cabeloMayara.g = 36;
+  cabeloMayara.b = 79;
+  Serial.printf("Para fazer a cor %s vc precisa de %d vermelho, %d de verde e %d de azul.\n\r", cabeloMayara.nome, cabeloMayara.r, cabeloMayara.g, cabeloMayara.b);
+
+  strcpy(blusaDaStreamer.nome, "blusa da streamer");
+  blusaDaStreamer.r = 29;
+  blusaDaStreamer.g = 75;
+  blusaDaStreamer.b = 67;
+  Serial.printf("Para fazer a cor %s vc precisa de %d vermelho, %d de verde e %d de azul.\n\r", blusaDaStreamer.nome, blusaDaStreamer.r, blusaDaStreamer.g, blusaDaStreamer.b);
+
+  strcpy(roxo.nome, "roxo");
+  roxo.r = 113;
+  roxo.g = 23;
+  roxo.b = 255;
+  Serial.printf("Para fazer a cor %s vc precisa de %d vermelho, %d de verde e %d de azul.\n\r", roxo.nome, roxo.r, roxo.g, roxo.b);
+
+}
+
+void loop() 
+{
+  
+}
