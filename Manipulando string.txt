@@ -1,0 +1,40 @@
+#include <Arduino.h>
+
+char nome[20];
+char nome2[20];
+
+void setup() {
+   Serial.begin(9600);
+
+  strcpy(nome, "Rafa"); //atribui uma string a uma cadeia de caracteres
+  Serial.println(nome);
+  strcat(nome, "Hahon");//concatena (junta) strings a um vetor - une os dois nomes
+  Serial.println(nome);
+
+  strcpy(nome2, "Rafa oooo");
+
+  int tamanho = strlen(nome); //informa o tamanho do dado
+  Serial.println(tamanho);
+
+  //compara duas strings e retorna zero se forem iguais
+  if(strcmp(nome, nome2) == 0) Serial.println("Sao iguais");
+  else Serial.println("nao sao iguais");
+
+  if(strcmp("Rafa Hahon", nome) == 0) Serial.println("Sao iguais");
+  else Serial.println("nao sao iguais");
+
+  if(strncmp(nome2, nome, 4) == 0) //compara se os 4 primeiros caracteres sao iguais(pode alterar o numero de caracteres)
+  Serial.println("O comeco e igual");
+  else Serial.println("O comeco nao e igual");
+
+  char buffer[50];
+  int temperatura = 25;
+  sprintf(buffer, "Temperatura: %d", temperatura); //adiciona a um vetor um texto como um printf
+  Serial.println(buffer);
+
+
+}
+
+void loop() {
+  
+}
