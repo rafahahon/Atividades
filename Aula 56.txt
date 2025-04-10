@@ -1,0 +1,34 @@
+#include <Arduino.h>
+#include <BluetoothSerial.h>
+
+BluetoothSerial SerialBT;
+
+#define pinLed 2 
+
+//esp slave
+void setup() {
+  Serial.begin(9600);
+  SerialBT.begin("slaveDaJu");
+
+  pinMode(pinLed, OUTPUT);
+
+  Serial.println("Esperando uma conexao Bluetooth");
+}
+
+void loop() {
+  if(SerialBT.available())
+  {
+    String mensagem = SerialBT.readStringUntil('\r');
+    Serial.printf("Mensagem recebida: %s\n\r", mensagem);
+
+    if(mensagem.equals("ping"))
+    {
+      SerialBT.print("pong\n\r");
+    }
+
+    if(mensagem.equals("para"))
+    {
+      digitalWrite(pinLed, HIGH);
+    }
+  }
+}
