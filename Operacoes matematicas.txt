@@ -1,0 +1,108 @@
+/*
+Autor: Rafaella
+Nome programa: Matematica 
+Descricao: Este codigo explica como ocorrem as operacoes matematicas
+Data: 24/02/2025
+*/
+
+/* Declaracao de variaveis globais */
+int numeroA = 14;
+int numeroB = 5;
+int resultado = 0;
+float resultadoReal = 0;
+
+
+
+void setup()
+{
+  Serial.begin(9600);
+  
+  //SOMA
+  resultado = numeroA + numeroB;
+  Serial.print("A soma do numero A com o numero B e: ");
+  Serial.println(resultado);
+  
+  //SUBTRACAO
+  resultado = numeroB - numeroA;
+  Serial.print("A subtracao do numero B pelo A e: ");
+  Serial.println(resultado);
+  
+  //MULTIPLICACAO	
+  resultado = numeroA * numeroB;
+  Serial.print("A multiplicacao do numero A pelo B e: ");
+  Serial.println(resultado);
+  
+  //DIVISAO
+  resultado = numeroA / numeroB;
+  Serial.print("A divisao do numero A pelo b e: ");
+  Serial.println(resultado);
+  resultado = numeroA%numeroB;
+  Serial.print("e sobra ");
+  Serial.println(resultado);
+  resultadoReal = (float)numeroA / (float)numeroB;
+  Serial.print("Ou ");
+  Serial.println(resultadoReal, 1); // limita a impressao do resultado em uma casa decimal
+  
+  //POTENCIA
+  resultado = pow(numeroA,numeroB); // A elevado a B
+  Serial.print("A elevado a B e: ");
+  Serial.println(resultado);
+  
+  //QUADRADO
+  resultado = sq(numeroA);
+  Serial.print("A elevado ao quadrado e: ");
+  Serial.println(resultado);
+  
+  //RAIZ QUADRADA
+  resultadoReal = sqrt(numeroA);
+  Serial.print("A raiz quadrada do numeroA e: ");
+  Serial.println(resultadoReal);
+  
+  //MODULO
+  resultado = abs(numeroA * -1);
+  Serial.print("O modulo do numeroA e: ");
+  Serial.println(resultadoReal);
+  
+  //RESTRICAO
+  resultado = constrain(numeroA, -3,5); // restringe a variavel 
+                                        // numero A aos limites -3 e 5
+  
+  Serial.print("Restricao: ");
+  Serial.println(resultado);
+  
+  //REMAPEAMENTO
+  resultado = map(numeroA, 0, 20, 0, 10);
+  //map(valor, deMenor, deMaior, paraMenor, para Maior)
+  Serial.println(resultado);
+  
+  //OPERADORES DE ATRIBUICAO
+  //numeroA = numeroA + 5;
+  Serial.println(numeroA += 5);
+  
+  //numeroA = numeroA - 5;
+  Serial.println(numeroA -= 5);
+  
+  //numeroA = numeroA * 2;
+  Serial.println(numeroA *= 2);
+  
+  //numeroA = numeroA / 2;
+  Serial.println(numeroA /= 2);
+  
+  //INCREMENTAR A VARIAVEL
+  //numeroA = numeroA + 1;
+  Serial.println(numeroA++); //pos incremento
+  Serial.println(++numeroA); //pre incremento
+  
+  //DECREMENTAR A VARIAVEL
+  //numeroA = numeroA - 1;
+  Serial.println(numeroA--); //pos incremento
+  Serial.println(--numeroA); //pre incremento
+  
+  resultadoReal = 3 * ( (2.0 / 5.0) + (2 * 3) );
+  
+}
+
+void loop()
+{
+  
+}
