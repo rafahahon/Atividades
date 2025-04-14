@@ -1,0 +1,54 @@
+#include <Arduino.h>
+#include <BluetoothSerial.h>
+
+BluetoothSerial SerialBT;
+
+#define pinLed 2 
+
+void liga();
+void desliga();
+void pisca();
+
+//esp slave
+void setup() 
+{
+  Serial.begin(9600);
+  SerialBT.begin("slaveDaJu");
+
+  pinMode(pinLed, OUTPUT);
+}
+
+void loop() 
+{
+  //Envia mensagem
+  if (Serial.available()) 
+  {
+    String msgEnviada = Serial.readStringUntil('\n');
+    SerialBT.println(msgEnviada);
+  }
+
+  //Recebe mensagem
+  if (SerialBT.available()) 
+  {
+    String msgRecebida = SerialBT.readStringUntil('\n');
+    Serial.printf("Mensagem recebida: %s", msgRecebida);
+  }
+}
+
+void liga()
+{
+  digitalWrite(pinLed, HIGH);
+}
+
+void desliga()
+{
+  digitalWrite(pinLed, LOW);
+}
+
+void pisca()
+{
+  digitalWrite(pinLed, HIGH);
+  delay(200);
+  digitalWrite(pinLed, LOW);
+  delay(200);
+}
