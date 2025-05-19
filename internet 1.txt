@@ -1,0 +1,37 @@
+#include <Arduino.h>
+#include <ezTime.h>
+#include "internet.h"
+
+Timezone tempo;
+
+void setup() 
+{
+  Serial.begin(9600);
+  conectaWiFi();
+
+  waitForSync();
+  tempo.setLocation("America/Sao_Paulo");
+
+}
+
+void loop() 
+{
+  checkWiFi();
+
+  Serial.println(tempo.dateTime()); // retorna o dia da semana, a data, o horario e o fuso
+  Serial.println(tempo.day()); // retorna o dia
+  Serial.println(tempo.month()); // retorna o mes
+  Serial.println(tempo.year()); // retorna o ano
+  Serial.println(tempo.dayOfYear()); // retorna o dia do ano
+  Serial.println(tempo.hour()); // retorna a hora
+  Serial.println(tempo.minute()); // retorna os minutos
+  Serial.println(tempo.second()); // retorna os segundos
+  Serial.println(tempo.getPosix()); // retorna o fuso horario
+  Serial.println(tempo.isAM()); // retorna se o tempo e am em 0 e 1
+  Serial.println(tempo.isPM()); // retorna se o tempo e pm em 0 e 1
+  Serial.println(tempo.now()); // retorna quantos segundos se passaram desde janeiro de  1970
+  Serial.println(tempo.ms()); // retorna milissegundos em ciclos de 0-999
+  Serial.println(tempo.weekday()); // retorna o dia da semana (1 a 7)
+  Serial.println("_____________________");
+  delay(2000);
+}
