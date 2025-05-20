@@ -17,6 +17,8 @@ const char*mqtt_topic_pub = "senai134/mesa01/esp_publicando"; // publicando
 bool estadoLed = false;
 bool modoPisca = false;
 
+int tempo = 0;
+
 void callback(char *, byte *, unsigned int);
 void mqttConnect(void);
 void controleLed();
@@ -88,6 +90,23 @@ void callback(char *topic, byte *payload, unsigned int lenght) // recebe e decod
     modoPisca = true;
   }
 
+  else if(mensagem.startsWith("velocidade: "))
+  {
+    int tamanho = mensagem.length();
+    String extracao =  mensagem.substring(12, tamanho);
+    tempo = extracao.toInt();
+    if(tempo > 100)
+    {
+      tempo = 100;
+      Serial.println("Velocidade limitada");
+    }
+    else if(tempo < 0)
+    {
+      tempo = 0;
+      Serial.println("Velocidade limitada");
+    }
+  }
+
   else
   {
     Serial.println("Comando nao reconhecido");
@@ -126,7 +145,7 @@ void controleLed()
 
   if(modoPisca)
   {
-    if(agora - ultimaMudanca > 500)
+    if(agora - ultimaMudanca > tempo)
     {
       estadoLed = !estadoLed;
       ultimaMudanca = agora;
