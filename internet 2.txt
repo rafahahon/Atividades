@@ -11,12 +11,15 @@ PubSubClient client(espClient);
 const char *mqtt_server = "broker.hivemq.com";
 const int mqtt_port = 1883;
 const char *mqtt_id = "esp32-senai134-hahon";
-const char *mqtt_topic_sub = "senai134/mesa01/esp_inscrito";
-const char*mqtt_topic_pub = "senai134/mesa01/esp_publicando";
+const char *mqtt_topic_sub = "senai134/mesa01/esp_inscrito"; // ouvindo
+const char*mqtt_topic_pub = "senai134/mesa01/esp_publicando"; // publicando
+
 bool estadoLed = false;
+bool modoPisca = false;
 
 void callback(char *, byte *, unsigned int);
 void mqttConnect(void);
+void controleLed();
 
 void setup() 
 {
@@ -46,10 +49,12 @@ void loop()
     tempoAnterior = tempoAtual;
   }
 
+  controleLed();
+
 }
 
 
-void callback(char *topic, byte *payload, unsigned int lenght)
+void callback(char *topic, byte *payload, unsigned int lenght) // recebe e decodifica a mensagem
 {
   Serial.printf("mensagem recebida em %s: ", topic);
 
@@ -62,14 +67,30 @@ void callback(char *topic, byte *payload, unsigned int lenght)
 
   Serial.println(mensagem);
 
+  mensagem.trim();
+  mensagem.toLowerCase();
+
   if(mensagem == "liga")
   {
     estadoLed = true;
+    modoPisca = false;
   }
 
   else if(mensagem == "desliga")
   {
     estadoLed = false;
+    modoPisca = false;
+  }
+
+  else if(mensagem == "pisca")
+  {
+    estadoLed = false;
+    modoPisca = true;
+  }
+
+  else
+  {
+    Serial.println("Comando nao reconhecido");
   }
 
   digitalWrite(pinLed, estadoLed);
@@ -96,4 +117,21 @@ void mqttConnect()
       delay(5000);
     }
   }
+}
+
+void controleLed()
+{
+  static unsigned long ultimaMudanca = 0;
+  unsigned long agora = millis();
+
+  if(modoPisca)
+  {
+    if(agora - ultimaMudanca > 500)
+    {
+      estadoLed = !estadoLed;
+      ultimaMudanca = agora;
+    }
+  }
+
+  digitalWrite(pinLed, estadoLed);
 }
