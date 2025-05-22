@@ -1,0 +1,145 @@
+#include <Arduino.h>
+#include <PubSubClient.h>
+#include <WiFi.h>
+#include <ArduinoJson.h>
+#include "internet.h"
+
+#define pinLed 2
+
+WiFiClient espClient;
+PubSubClient client(espClient);
+
+const char *mqtt_server = "broker.hivemq.com";
+const int mqtt_port = 1883;
+const char *mqtt_id = "esp32-senai134-hahon";
+const char *mqtt_topic_sub = "senai134/mesa01/esp_inscrito"; // ouvindo
+const char*mqtt_topic_pub = "senai134/mesa01/esp_publicando"; // publicando
+
+bool estadoLed = false;
+bool modoPisca = false;
+
+int velocidade = 0;
+
+void callback(char *, byte *, unsigned int);
+void mqttConnect(void);
+void controleLed();
+
+void setup() 
+{
+  Serial.begin(9600);
+  pinMode(pinLed, OUTPUT);
+  conectaWiFi();
+
+  client.setServer(mqtt_server, mqtt_port);
+  client.setCallback(callback);
+
+  pinMode(0, INPUT_PULLUP);
+}
+
+void loop() 
+{
+  checkWiFi();
+
+  if(!client.connected())
+    mqttConnect();
+
+  client.loop();
+
+  static unsigned long tempoAnterior = 0;
+  unsigned long tempoAtual = millis();
+
+  JsonDocument doc;
+
+  doc["botao"] = digitalRead(0);
+  doc["msg"] = "OLA MUNDO";
+
+  estadoBotao = !estadoBotao;
+  
+
+  String mensagem;
+  serializeJson(doc, mensagem);
+
+  Serial.println(mensagem);
+
+  client.publish(mqtt_topic_pub, mensagem.c_str());
+
+  controleLed();
+
+}
+
+
+void callback(char *topic, byte *payload, unsigned int lenght) // recebe e decodifica a mensagem
+{
+  Serial.printf("mensagem recebida em %s: ", topic);
+
+  String mensagem = "";
+  for(unsigned int i = 0; i < lenght; i++)
+  {
+    char c = (char)payload[i];
+    mensagem += c;
+  }
+
+  Serial.println(mensagem);
+
+  JsonDocument doc;
+  deserializeJson(doc, mensagem);
+
+  if(!doc["estadoLed"].isNull())
+  {
+    estadoLed = doc["estadoLed"];
+    modoPisca = 0;
+  }
+
+  if(!doc["modoPisca"].isNull())
+  {
+    modoPisca = doc["modoPisca"];
+  }
+
+
+  if(!doc["velocidade"].isNull())
+  {
+    velocidade = doc["velocidade"];
+  }
+
+  
+
+}
+
+void mqttConnect()
+{
+  while(!client.connected())
+  {
+    Serial.println("Conectando ao MQTT...");
+
+    if(client.connect(mqtt_id))
+    {
+      Serial.println("Conectado com sucesso");
+      client.subscribe(mqtt_topic_sub);
+    }
+
+    else
+    {
+      Serial.print("Falha, rc = ");
+      Serial.println(client.state());
+      Serial.println("Tentando novamente em 5 segundos.");
+      delay(5000);
+    }
+  }
+}
+
+void controleLed()
+{
+  static unsigned long ultimaMudanca = 0;
+  unsigned long agora = millis();
+
+  if(modoPisca)
+  {
+    if(agora - ultimaMudanca > velocidade)
+    {
+      estadoLed = !estadoLed;
+      ultimaMudanca = agora;
+    }
+  }
+
+  digitalWrite(pinLed, estadoLed);
+}
