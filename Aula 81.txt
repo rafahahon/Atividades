@@ -52,8 +52,6 @@ void loop()
 
   doc["botao"] = digitalRead(0);
   doc["msg"] = "OLA MUNDO";
-
-  estadoBotao = !estadoBotao;
   
 
   String mensagem;
