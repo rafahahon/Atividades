@@ -1,0 +1,132 @@
+#include <Arduino.h>
+#include <PubSubClient.h>
+#include <WiFi.h>
+#include <ArduinoJson.h>
+#include <ezTime.h>
+#include "internet.h"
+
+#include <DHT.h>
+
+#define DHTPIN 5
+#define DHTTYPE DHT22
+
+DHT dht(DHTPIN, DHTTYPE);
+
+WiFiClient espClient;
+PubSubClient client(espClient);
+Timezone tempo;
+
+
+const char *mqtt_server = "broker.hivemq.com"; //endereco do broker, pode ser um ip, nds
+const int mqtt_port = 1883; //porta de comunicacao sem seguranca
+const char *mqtt_id = "esp32-senai134-hahon"; //id = nome do dispositivo
+const char *mqtt_topic_sub = "senai134/mesa01/esp_inscrito"; //o esp esta ouvindo este topico, 
+const char *mqtt_topic_pub = "senai134/mesa01/esp_publicando"; //o esp publica mensagens
+
+void callback(char *, byte *, unsigned int);
+void mqttConnect(void);
+
+float temp = dht.readTemperature();
+
+unsigned long agora = millis();
+unsigned long tempoAntes = 0;
+unsigned long intervalo = 0;
+
+void setup() 
+{
+  Serial.begin(9600);
+  dht.begin();
+
+  conectaWiFi();
+
+  client.setServer(mqtt_server, mqtt_port);
+  client.setCallback(callback);
+
+}
+
+void loop() 
+{
+  
+  float umidade = dht.readHumidity();
+
+  if (isnan(temp) || isnan(umidade))
+  {
+    Serial.println("Erro ao ler o sensor");
+    return;
+  }
+
+  checkWiFi();
+  if (!client.connected())
+    mqttConnect();
+
+  client.loop();
+
+  if(agora - tempoAntes > intervalo)
+  {
+
+  JsonDocument doc;
+  doc["umidade"] = umidade;
+
+  String mensagem;
+  serializeJson(doc, mensagem);
+
+  Serial.print("Enviando dados MQTT: ");
+  Serial.println(mensagem);
+
+  client.publish(mqtt_topic_pub, mensagem.c_str());
+
+  tempoAntes = agora;
+  }
+
+}
+
+
+void callback(char *topic, byte *payLoad, unsigned int Length) //recebendo msg
+{
+  Serial.printf("mensagem recebida em %s:", topic);
+  String mensagem = "";
+  for (unsigned int i = 0; i < Length; i++)
+  {
+    char c = (char)payLoad[i];
+    mensagem += c;
+  }
+  Serial.println(mensagem);
+
+  JsonDocument doc;
+  deserializeJson(doc,mensagem);
+
+  if (!doc["intervalo"].isNull())
+  {
+    intervalo = doc["intervalo"];
+  }
+
+  if (!doc["temperatura"].isNull())
+  {
+     doc["temperatura"] = temp;
+  }
+
+}
+
+void mqttConnect()
+{
+  while (!client.connected())
+  {
+    Serial.println("conectando ao MQTT...");
+
+    if (client.connect(mqtt_id))
+    {
+      Serial.println("Conectado com sucesso");
+      client.subscribe(mqtt_topic_sub);
+    }
+
+    else
+    {
+      Serial.print("falha, rc=");
+      Serial.println(client.state());
+      Serial.println("tentando novamente em 5 segundos");
+      delay(5000);
+    }
+    
+  }
+  
+}
